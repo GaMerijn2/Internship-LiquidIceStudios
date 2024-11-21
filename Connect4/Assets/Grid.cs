@@ -76,6 +76,7 @@ public class Grid
             {
                 if(currentChild is null) _allChildren.Remove(currentChild);
                 var currentChildTile = childToTileMap.ContainsKey(currentChild) ? childToTileMap[currentChild] : null;
+
                 Vector3 childPos = currentChild.transform.position;
                 Vector3 gridPos = Position;
                 Vector3 diff = childPos - gridPos;

@@ -64,6 +64,10 @@ public class ImprovedGrid : MonoBehaviour
 
         foreach (GameObject gameObject in gameObjectsWithTag)
         {
+            if (grid.childToTileMap.ContainsKey(gameObject))
+            {
+                return;
+            }
             grid.AddGameObject(gameObject);
         }
 
