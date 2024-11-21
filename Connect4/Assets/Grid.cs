@@ -11,6 +11,7 @@ public class Grid
     
     private int width;
     private int height;
+    private bool tileIsOccupied;
     
     public List<GameObject> _allChildren;
 
@@ -71,20 +72,39 @@ public class Grid
         
         while (true)
         {
+            
             occupiedTiles.Clear();
             foreach (var currentChild in _allChildren)
             {
                 if(currentChild is null) _allChildren.Remove(currentChild);
-                var currentChildTile = childToTileMap.ContainsKey(currentChild) ? childToTileMap[currentChild] : null;
+                Tile currentChildTile = childToTileMap.ContainsKey(currentChild) ? childToTileMap[currentChild] : null;
+                
+                tileIsOccupied = occupiedTiles.Contains(currentChildTile);
+
+                
+                if (tileIsOccupied)
+                {
+                    currentChild.GetComponent<GridInfo>().currentTile.isOccupied = true;
+                }
+                else
+                {
+                    if (currentChildTile != null)
+                    {
+                        currentChild.GetComponent<GridInfo>().currentTile.isOccupied = false;
+                    }
+                }
+                
 
                 Vector3 childPos = currentChild.transform.position;
                 Vector3 gridPos = Position;
                 Vector3 diff = childPos - gridPos;
+                
                 float tileX = diff.x / Tile.width;
                 float tileY = diff.y / Tile.height;
+                
                 int gridX = Mathf.FloorToInt(tileX);
                 int gridY = Mathf.FloorToInt(tileY);
-                //Debug.Log($"Grid X: {gridX}, Y: {gridY}");
+                
                 Tile correctTile = tiles[gridX, gridY];
                 
                 if (currentChildTile != null)
@@ -204,11 +224,6 @@ public class Grid
                 Gizmos.DrawWireCube(new Vector3(currentTile.Position.x + Tile.width/2f, currentTile.Position.y + Tile.height/2f, 0), new Vector3(Tile.width/0.985f, Tile.height/0.985f, 0));
             }
         }
-    }
-
-    public int GridWidth
-    {
-        get => Tile.width * width;
     }
     public Vector2 Position {  get; set;  }
 }

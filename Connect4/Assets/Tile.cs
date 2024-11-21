@@ -7,6 +7,7 @@ public class Tile
     public List<GameObject> children;
     public static int width = 1;
     public static int height = 1;
+    public bool isOccupied = false;
 
     
     public Tile(Vector2 position)
