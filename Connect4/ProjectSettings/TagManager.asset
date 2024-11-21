@@ -6,11 +6,13 @@ TagManager:
   tags:
   - Coin
   - GameWidthObject
+  - Button
+  - MousePosition
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Game
   - Water
   - UI
   - 

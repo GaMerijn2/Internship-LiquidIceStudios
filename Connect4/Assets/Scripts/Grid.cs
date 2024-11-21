@@ -20,7 +20,6 @@ public class Grid
     
     private List<Tile> occupiedTiles = new List<Tile>(); // todo: in de toekomt misschien een aparrte rendergrid class voor maken
 
-    //public GameObject tileText = new GameObject();
     
     public Grid(int width, int height, float startX = 0, float startY=0, GameObject canvas=null)
     {
@@ -78,23 +77,11 @@ public class Grid
             {
                 if(currentChild is null) _allChildren.Remove(currentChild);
                 Tile currentChildTile = childToTileMap.ContainsKey(currentChild) ? childToTileMap[currentChild] : null;
-                
+
+                GridInfo gridInfo = currentChild.GetOrAddComponent<GridInfo>();
                 tileIsOccupied = occupiedTiles.Contains(currentChildTile);
-
+                (gridInfo.currentGridPosition.x, gridInfo.currentGridPosition.y) = ConvertWorldToGridPos(currentChild.transform.position.x, currentChild.transform.position.y);
                 
-                if (tileIsOccupied)
-                {
-                    currentChild.GetComponent<GridInfo>().currentTile.isOccupied = true;
-                }
-                else
-                {
-                    if (currentChildTile != null)
-                    {
-                        currentChild.GetComponent<GridInfo>().currentTile.isOccupied = false;
-                    }
-                }
-                
-
                 Vector3 childPos = currentChild.transform.position;
                 Vector3 gridPos = Position;
                 Vector3 diff = childPos - gridPos;
@@ -147,28 +134,50 @@ public class Grid
     }
     public void AddChildToTile(GameObject child, int x, int y)
     {
-        if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1)) return;
-        
+        if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1))
+        {
+            return;
+        }
+
         var currentTile = tiles[x, y];
+
+        if (currentTile.isOccupied)
+        {
+            return;
+        }
+
         currentTile.AddChild(child);
         childToTileMap[child] = currentTile;
         var currentGridInfo = child.GetOrAddComponent<GridInfo>();
         currentGridInfo.currentTile = currentTile;
+
+        currentTile.isOccupied = true;
     }
+
     public void RemoveChildFromTile(GameObject child, int x, int y)
     {
-        if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1)) return;
-        
-        tiles[x, y].RemoveChild(child);
+        if (x < 0 || x >= tiles.GetLength(0) || y < 0 || y >= tiles.GetLength(1))
+        {
+            return;
+        }
+
+        var tile = tiles[x, y];
+
+        if (!tile.isOccupied)
+        {
+            return;
+        }
+
+        tile.RemoveChild(child);
+        childToTileMap.Remove(child);
+
+        tile.isOccupied = false;
     }
+
     
     public (int gridPosX, int gridPosY) ConvertWorldToGridPos(float worldPosX, float worldPosY)
     {
         var gameObjectWidth = GameObject.FindGameObjectWithTag("GameWidthObject");
-        if (gameObjectWidth == null)
-        {
-            Debug.LogError("Game Object Width is null");
-        }
         var renderer = gameObjectWidth.GetComponent<Renderer>();
 
         float startX = renderer.bounds.min.x;
