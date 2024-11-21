@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private GameObject currentCoinPrefab;
+    [SerializeField] private GameObject redCoinPrefab;
+    [SerializeField] private GameObject yellowCoinPrefab;
     private Grid grid;
+
+    public int team = 1;
 
     private void Start()
     {
@@ -12,6 +17,23 @@ public class GameManager : MonoBehaviour
         grid = improvedGrid.grid;
 
         SetUpButtons();
+        SetTeam();
+    }
+
+    private void SetTeam()
+    {
+        switch (team)
+        {
+            case 1:
+                currentCoinPrefab = redCoinPrefab;
+                break;
+            case 2:
+                currentCoinPrefab = yellowCoinPrefab;
+                break;
+            default:
+                currentCoinPrefab = redCoinPrefab;
+                break;
+        }
     }
 
     private void SetUpButtons()
@@ -41,11 +63,13 @@ public class GameManager : MonoBehaviour
 
         if (lowestTile != null)
         {
-            GameObject newCoin = Instantiate(coinPrefab, lowestTile.Position + new Vector2(Tile.height/2f, Tile.width/2f), Quaternion.identity);
+            GameObject newCoin = Instantiate(currentCoinPrefab, lowestTile.Position + new Vector2(Tile.height/2f, Tile.width/2f), Quaternion.identity);
 
             grid.AddChildToTile(newCoin, column, grid.ConvertWorldToGridPos(lowestTile.Position.x, lowestTile.Position.y).gridPosY);
-
+            grid._allChildren.Add(newCoin);
             Debug.Log($"Coin spawned at Tile[{column}, {grid.ConvertWorldToGridPos(lowestTile.Position.x, lowestTile.Position.y).gridPosY}]");
+            team = team == 1 ? 2 : 1;
+            SetTeam();
         }
         else
         {
