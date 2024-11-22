@@ -108,7 +108,6 @@ public class Grid
                 {
                     occupiedTiles.Add(correctTile);
                     //GridUtils.SnapToTileCenter(currentChild, correctTile);
-
                     continue;
                 }
                 

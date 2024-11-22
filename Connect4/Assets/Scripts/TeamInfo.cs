@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class TeamInfo : MonoBehaviour
 {
-    private string _teamName;
-    private int _teamID;
+    public string teamName;
+    public int teamID;
 }

@@ -8130,6 +8130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1870601326}
   - component: {fileID: 1870601325}
+  - component: {fileID: 1870601327}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8149,7 +8150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c904b59fb3b9134e9ab469b014b66cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPrefab: {fileID: 4053908783467016521, guid: 364b3ed658a91bf4696c4901db615e59, type: 3}
+  currentCoinPrefab: {fileID: 0}
+  redCoinPrefab: {fileID: 4053908783467016521, guid: 364b3ed658a91bf4696c4901db615e59, type: 3}
+  yellowCoinPrefab: {fileID: 4053908783467016521, guid: e5e1e30807826024c92a9645a95ab6c5, type: 3}
+  team: 1
 --- !u!4 &1870601326
 Transform:
   m_ObjectHideFlags: 0
@@ -8165,6 +8169,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 216968601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1870601327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870601324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b79f33dae7d90b74e8363b8b38e5c2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  improvedGrid: {fileID: 0}
+  amountForWin: 4
 --- !u!1 &2112722334
 GameObject:
   m_ObjectHideFlags: 0

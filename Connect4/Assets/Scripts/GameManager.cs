@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject currentCoinPrefab;
     [SerializeField] private GameObject redCoinPrefab;
     [SerializeField] private GameObject yellowCoinPrefab;
-    private Grid grid;
+    public Grid grid;
 
     public int team = 1;
 
@@ -26,9 +26,13 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 currentCoinPrefab = redCoinPrefab;
+                currentCoinPrefab.GetComponent<TeamInfo>().teamID = team;
+                currentCoinPrefab.GetComponent<TeamInfo>().teamName = "Peach";
                 break;
             case 2:
                 currentCoinPrefab = yellowCoinPrefab;
+                currentCoinPrefab.GetComponent<TeamInfo>().teamID = team;
+                currentCoinPrefab.GetComponent<TeamInfo>().teamName = "Teal";
                 break;
             default:
                 currentCoinPrefab = redCoinPrefab;
@@ -67,7 +71,7 @@ public class GameManager : MonoBehaviour
 
             grid.AddChildToTile(newCoin, column, grid.ConvertWorldToGridPos(lowestTile.Position.x, lowestTile.Position.y).gridPosY);
             grid._allChildren.Add(newCoin);
-            Debug.Log($"Coin spawned at Tile[{column}, {grid.ConvertWorldToGridPos(lowestTile.Position.x, lowestTile.Position.y).gridPosY}]");
+            //Debug.Log($"Coin spawned at Tile[{column}, {grid.ConvertWorldToGridPos(lowestTile.Position.x, lowestTile.Position.y).gridPosY}]");
             team = team == 1 ? 2 : 1;
             SetTeam();
         }
