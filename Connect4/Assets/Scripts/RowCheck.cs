@@ -23,25 +23,17 @@ public class RowCheck : MonoBehaviour
     private void Win()
     {
         bool winCheck = CheckForWin(amountForWin);
-        if (winCheck)
-        {
-            Debug.Log($"You win! {_currentTeamObject.GetComponent<TeamInfo>().teamName}");
-        }
+        if (!winCheck) return;
+        Debug.Log($"You win! {_currentTeamObject.GetComponent<TeamInfo>().teamName}");
     }
 
     private void InitializeGrid()
     {
         if (improvedGrid == null)
-        {
             improvedGrid = FindAnyObjectByType<ImprovedGrid>();
-        }
-
         if (improvedGrid != null && grid == null)
-        {
             grid = improvedGrid.grid;
-        }
     }
-
     private bool CheckForWin(int win)
     {
         InitializeGrid();
