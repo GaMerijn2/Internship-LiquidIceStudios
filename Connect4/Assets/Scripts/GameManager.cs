@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _playSound.PlaySoundFile(errorSound, 0.6f);
+            _playSound.PlaySoundFile(errorSound, 0.4f);
             Debug.LogWarning($"Column {column} is full!");
         }
     }

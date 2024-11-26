@@ -15,6 +15,11 @@ public class PlaySound : MonoBehaviour
 
     public void PlaySoundFile( AudioClip sound, float volume = 1f)
     {
+        //sound = audioSource.clip;
         audioSource.PlayOneShot(sound, volume);
+    }
+    public void PlaySoundFile( AudioClip sound)
+    {
+        audioSource.PlayOneShot(sound, 1f);
     }
 }
