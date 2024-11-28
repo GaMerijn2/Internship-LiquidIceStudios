@@ -11,7 +11,7 @@ public class ImprovedGrid : MonoBehaviour
     public GameObject canvas;
 
 
-    private void Start()
+    private void Awake()
     {
         CreateGrid();
     }
