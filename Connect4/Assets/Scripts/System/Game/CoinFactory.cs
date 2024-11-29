@@ -11,7 +11,7 @@ public class CoinFactory
         _teamCoordinator = teamCoordinator;
     }
 
-    public void CreateCoinAtTile(Tile tile, int column)
+    public GameObject CreateCoinAtTile(Tile tile, int column)
     {
         GameObject newCoin = Object.Instantiate(
             _teamCoordinator.GetActiveCoinPrefab(),
@@ -20,5 +20,6 @@ public class CoinFactory
         );
 
         _grid.AddChildToTile(newCoin, column, _grid.ConvertWorldToGridPos(tile.Position.x, tile.Position.y).gridPosY);
+        return newCoin;
     }
 }
