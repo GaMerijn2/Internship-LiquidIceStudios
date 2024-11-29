@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class PlaySound : MonoBehaviour
+public class SoundExtensions : MonoBehaviour
 {
     private AudioSource audioSource;
 

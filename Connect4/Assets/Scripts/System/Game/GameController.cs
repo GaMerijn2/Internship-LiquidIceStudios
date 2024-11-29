@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
     {
         Grid grid = FindAnyObjectByType<ImprovedGrid>().grid;
 
-        _soundPlayer = new SoundPlayer(GetComponent<PlaySound>());
+        _soundPlayer = new SoundPlayer(GetComponent<SoundExtensions>());
         _teamCoordinator = new TeamCoordinator();
         _buttonInitializer = new SpawnButtonInitializer(SpawnCoinInColumn);
         _gridExtensions = new GridExtensions(grid);

@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject currentCoinPrefab;
     [SerializeField] private GameObject redCoinPrefab;
     [SerializeField] private GameObject yellowCoinPrefab;
-    private PlaySound _playSound;
+    private SoundExtensions _soundExtensions;
     [SerializeField] private AudioClip placeSound;
     [SerializeField] private AudioClip errorSound;
     public Grid grid;
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     {
         ImprovedGrid improvedGrid = FindAnyObjectByType<ImprovedGrid>();
         grid = improvedGrid.grid;
-        _playSound = GetComponent<PlaySound>();
+        _soundExtensions = GetComponent<SoundExtensions>();
 
         SetUpButtons();
         SetTeam();
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         if (lowestTile != null)
         {
             GameObject newCoin = Instantiate(currentCoinPrefab, lowestTile.Position + new Vector2(Tile.height/2f, Tile.width/2f), Quaternion.identity);
-            _playSound.PlaySoundFile(placeSound);
+            _soundExtensions.PlaySoundFile(placeSound);
             grid.AddChildToTile(newCoin, column, grid.ConvertWorldToGridPos(lowestTile.Position.x, lowestTile.Position.y).gridPosY);
             grid._allChildren.Add(newCoin);
             //Debug.Log($"Coin spawned at Tile[{column}, {grid.ConvertWorldToGridPos(lowestTile.Position.x, lowestTile.Position.y).gridPosY}]");
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _playSound.PlaySoundFile(errorSound, 0.4f);
+            _soundExtensions.PlaySoundFile(errorSound, 0.4f);
             Debug.LogWarning($"Column {column} is full!");
         }
     }
