@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Effects;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
