@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ThemeChanger : MonoBehaviour
 {
@@ -20,13 +22,14 @@ public class ThemeChanger : MonoBehaviour
     
     private void Start()
     {
-        SetColor();
+        SetTheme("blue");
         backgroundObjects = GameObject.FindGameObjectsWithTag("Theme");
         Background.GetComponent<SpriteRenderer>().sprite = _blueBackground;
     }
 
     public void SetTheme(string theme)
     {
+        backgroundObjects = GameObject.FindGameObjectsWithTag("Theme");
         _currentTheme = theme;
         SetColor();
     }
@@ -34,16 +37,17 @@ public class ThemeChanger : MonoBehaviour
 
     public void ToggleTheme()
     {
+        backgroundObjects = GameObject.FindGameObjectsWithTag("Theme");
+
         switch (isBlueTheme)
         {
-            case true:
+            case false:
                 SetTheme("blue");
                 break;
-            case false:
+            case true:
                 SetTheme("pastel");
                 break;
         }
-
         isBlueTheme = !isBlueTheme;
     }
 
@@ -51,6 +55,7 @@ public class ThemeChanger : MonoBehaviour
     {
         if (_currentTheme == "blue")
         {
+            Debug.Log("blue");
             Background.GetComponent<SpriteRenderer>().sprite = _blueBackground;
             foreach (var bg in backgroundObjects)
             {
@@ -60,6 +65,7 @@ public class ThemeChanger : MonoBehaviour
         }
         else if (_currentTheme == "pastel")
         {
+            Debug.Log("pastel");
             Background.GetComponent<SpriteRenderer>().sprite = _pastelBackground;
             foreach (var bg in backgroundObjects)
             {

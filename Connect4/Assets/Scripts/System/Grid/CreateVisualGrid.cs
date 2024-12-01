@@ -33,8 +33,8 @@ public class CreateVisualGrid : MonoBehaviour
                     0),
                 Quaternion.identity,
                 parent.transform);
-            StartCoroutine(SetScaleTween(0,0.05f));
-            yield return new WaitForSeconds(0.05f);
+            StartCoroutine(SetScaleTween(0,0.03f));
+            yield return new WaitForSeconds(0.03f);
         }
     }
 
