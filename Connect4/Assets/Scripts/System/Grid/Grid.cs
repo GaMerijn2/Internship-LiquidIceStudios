@@ -19,17 +19,20 @@ public class Grid
     GameObject TileTextParent;
     
     private bool debugging = false;
-
+    
+    public string gridName;  // Add a unique name for each grid instance.
     
     private List<Tile> occupiedTiles = new List<Tile>();
 
     
-    public Grid(int width, int height, float startX = 0, float startY=0, GameObject canvas=null)
+    public Grid(int width, int height, float startX = 0, float startY = 0, GameObject canvas = null, string name = "DefaultGrid")
     {
         this.width = width;
         this.height = height;
         Position = new Vector2(startX, startY);
         _allChildren = new List<GameObject>();
+        gridName = name;  // Assign the provided name.
+
         CreateTiles(width, height, startX, startY, canvas);
     }
 
@@ -233,4 +236,5 @@ public class Grid
         }
     }
     public Vector2 Position {  get; set;  }
+    
 }

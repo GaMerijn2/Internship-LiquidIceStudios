@@ -5,15 +5,28 @@ public class ImprovedGrid : MonoBehaviour
 {
     public Grid grid;
     public GameObject GameWidthObj;
-    [SerializeField] private GameObject newGameObjectToAdd;
-    public bool performCoroutine = true;
+    private bool performCoroutine = true;
     [SerializeField] private string targetTag = "Coin";
     public GameObject canvas;
+
+    
+    [Header("Grid Settings")]
+    public Dictionary<GameObject, Tile> childToTileMap;
+    public Tile[,] tiles;
+    private int width;
+    private int height;
+    private bool tileIsOccupied;
+    public List<GameObject> _allChildren;
+    private GameObject GameWidthObject;
+    GameObject TileTextParent;
+    private bool debugging = false;
+    public string gridName;
+    private List<Tile> occupiedTiles;
 
 
     private void Awake()
     {
-        CreateGrid();
+        CreateGrid("First Grid Awake");
     }
 
     void Update()
@@ -39,13 +52,13 @@ public class ImprovedGrid : MonoBehaviour
 
     private void CheckGrid()
     {
-        if (grid == null) CreateGrid();
+        if (grid == null) CreateGrid("First Grid with Checkgrid");
     }
 
-    public void CreateGrid()
+    public void CreateGrid( string gridName, int extrawidth = 0, int extraheight = 0)
     {
         var (width, height, startX, startY, canvas) = CheckGridSize();
-        grid = new Grid(width, height, startX, startY, canvas);
+        grid = new Grid(width+ extrawidth, height +extraheight, startX, startY, canvas, gridName);
     }
 
     private void AddChildrenToList()
@@ -93,14 +106,6 @@ public class ImprovedGrid : MonoBehaviour
         return (gridWidth, gridHeight, startX, startY, canvas);
     }
 
-    public void RemoveGrid()
-    {
-        StopAllCoroutines();
-        GameObject TileTextParent = GameObject.Find("TileTextParent");
-        Destroy(TileTextParent);
-        CreateGrid();
-    }
-
     public void LogAllChildren()
     {
         Debug.Log($"Total number of objects in _allChildren: {grid._allChildren.Count}");
@@ -116,5 +121,46 @@ public class ImprovedGrid : MonoBehaviour
         {
             grid.DrawGrid();
         }
+    }
+    
+    public void DeleteGrid()
+    {
+        StopAllCoroutines();
+
+        if (grid.childToTileMap != null)
+        {
+            grid.childToTileMap.Clear();
+        }
+
+        if (grid._allChildren != null)
+        {
+            foreach (var child in grid._allChildren)
+            {
+                if (child != null)
+                {
+                    Destroy(child);
+                }
+            }
+            grid._allChildren.Clear();
+        }
+
+        if (grid.tiles != null)
+        {
+            for (int x = 0; x < grid.tiles.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.tiles.GetLength(1); y++)
+                {
+                    grid.tiles[x, y] = null;
+                }
+            }
+        }
+
+        GameObject tileTextParent = GameObject.Find("TileTextParent");
+        if (tileTextParent != null)
+        {
+            Destroy(tileTextParent);
+        }
+
+        grid = null;
     }
 }

@@ -16,6 +16,9 @@ public class SpawnButtonInitializer
         {
             if (buttonObject.TryGetComponent(out Button button))
             {
+                // Clear any existing listeners to prevent multiple calls
+                button.onClick.RemoveAllListeners();
+
                 if (int.TryParse(buttonObject.name.Replace("SpawnButton ", ""), out int columnIndex))
                 {
                     button.onClick.AddListener(() => _spawnCoinAction(columnIndex));

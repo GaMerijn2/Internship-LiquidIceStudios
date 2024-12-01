@@ -1,14 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CoinFactory
 {
-    private readonly Grid _grid;
+    private  Grid _grid;
     private readonly TeamCoordinator _teamCoordinator;
 
+    private List<GameObject> _coins;
+
+    public void SetGridReference(Grid newGrid)
+    {
+        _grid = newGrid;
+        Debug.Log($"CoinFactory grid updated to: {_grid.gridName}");
+    }
     public CoinFactory(Grid grid, TeamCoordinator teamCoordinator)
     {
         _grid = grid;
         _teamCoordinator = teamCoordinator;
+        _coins = new List<GameObject>();
     }
 
     public GameObject CreateCoinAtTile(Tile tile, int column)
@@ -18,8 +27,20 @@ public class CoinFactory
             tile.Position + new Vector2(Tile.height / 2f, Tile.width / 2f),
             Quaternion.identity
         );
+        _coins.Add(newCoin);
 
         _grid.AddChildToTile(newCoin, column, _grid.ConvertWorldToGridPos(tile.Position.x, tile.Position.y).gridPosY);
         return newCoin;
+        
     }
+
+    public void DeleteAllCoins()
+    {
+        foreach (var coin in _coins)
+        {
+            GameObject.Destroy(coin);
+        }
+        _coins.Clear();
+    }
+
 }

@@ -14,6 +14,11 @@ public class GameController : MonoBehaviour
     private SoundPlayer _soundPlayer;
     private GridExtensions _gridExtensions;
     private TweenObject _tweenObject;
+    private ImprovedGrid _improvedGrid;
+    private Grid grid;
+    public string gridName;
+    
+    [SerializeField] private int gridAmount = 0;
     
     private void Awake()
     {
@@ -22,7 +27,24 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        Grid grid = FindAnyObjectByType<ImprovedGrid>().grid;
+        ResetReferences();
+        gridName = grid.gridName;
+    }
+
+    private void ResetReferences()
+    {
+        _improvedGrid = null;
+        grid = null;
+        _soundPlayer = null;
+        _teamCoordinator = null;
+        _buttonInitializer = null;
+        _gridExtensions = null;
+        _coinFactory = null;
+        _tweenObject = null;
+
+        
+        _improvedGrid = FindAnyObjectByType<ImprovedGrid>();
+        grid = _improvedGrid.grid;
 
         _soundPlayer = new SoundPlayer(GetComponent<SoundExtensions>());
         _teamCoordinator = new TeamCoordinator();
@@ -37,6 +59,11 @@ public class GameController : MonoBehaviour
 
     private void SpawnCoinInColumn(int column)
     {
+        if (grid == null || grid.tiles == null)
+        {
+            Debug.LogError("Grid has no tiles, or is Null");
+            return;
+        }
         Tile lowestTile = _gridExtensions.GetLowestEmptyTile(column);
 
         if (lowestTile != null)
@@ -52,4 +79,26 @@ public class GameController : MonoBehaviour
             Debug.LogWarning($"Column {column} is full!");
         }
     }
+
+    public void ResetGame()
+    {
+        _coinFactory.DeleteAllCoins();
+        _improvedGrid.DeleteGrid();
+    
+        int newGridAmount = gridAmount + 1;
+        _improvedGrid.CreateGrid($"New Reset Grid {newGridAmount}");
+        gridName = $"New Reset Grid {newGridAmount}";
+    
+        RowCheck rowCheck = FindObjectOfType<RowCheck>();
+        if (rowCheck != null) rowCheck.SetGridReference(_improvedGrid.grid);
+        
+        if (_gridExtensions != null) _gridExtensions.SetGridReference(_improvedGrid.grid);
+        if (_coinFactory != null) _coinFactory.SetGridReference(_improvedGrid.grid);
+
+        rowCheck._hasWon = false;
+        gridAmount = newGridAmount;
+    }
+
+
+
 }

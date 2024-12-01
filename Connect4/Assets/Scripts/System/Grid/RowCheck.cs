@@ -11,7 +11,7 @@ public class RowCheck : MonoBehaviour
     private int teamId;
     public int amountForWin = 4;
     private GameObject _currentTeamObject;
-    private bool _hasWon;
+    public bool _hasWon;
     [SerializeField] private ParticleSystem[] confetti;
     [SerializeField] private UnityEvent onFourOnARow;
     
@@ -23,6 +23,26 @@ public class RowCheck : MonoBehaviour
     {
         Win();
     }
+    
+    // Update the grid reference
+    public void SetGridReference(Grid newGrid)
+    {
+        grid = newGrid;
+        Debug.Log($"RowCheck grid updated to: {grid.gridName}");
+    }
+
+    public void ResetGridReference()
+    {
+        if (improvedGrid == null) improvedGrid = FindObjectOfType<ImprovedGrid>();
+        if (improvedGrid != null && grid == null)
+            grid = improvedGrid.grid;
+
+        if (grid == null) 
+        {
+            Debug.LogError("Grid is null after reset.");
+        }
+    }
+
 
     private void Win()
     {
@@ -38,7 +58,7 @@ public class RowCheck : MonoBehaviour
         }
     }
 
-    private void InitializeGrid()
+    public void InitializeGrid()
     {
         if (improvedGrid == null)
             improvedGrid = FindAnyObjectByType<ImprovedGrid>();
@@ -48,13 +68,19 @@ public class RowCheck : MonoBehaviour
     private bool CheckForWin(int win)
     {
         InitializeGrid();
-        if (grid == null) return false;
+        if (grid == null || grid.tiles == null)
+        {
+            Debug.LogError("Grid or Grid.tiles is null. Cannot check for win.");
+            return false;
+        }
+
         for (int x = 0; x < grid.tiles.GetLength(0); x++)
         {
             for (int y = 0; y < grid.tiles.GetLength(1); y++)
             {
                 Tile currentTile = grid.tiles[x, y];
-                if (!currentTile.isOccupied) continue;
+                if (currentTile == null || !currentTile.isOccupied) continue;
+
                 teamId = currentTile.children[0].GetComponent<TeamInfo>().teamID;
                 _currentTeamObject = currentTile.children[0];
 
@@ -72,10 +98,15 @@ public class RowCheck : MonoBehaviour
                     {
                         int newX = x + direction.x * step;
                         int newY = y + direction.y * step;
+
                         if (newX < 0 || newX >= grid.tiles.GetLength(0) || newY < 0 || newY >= grid.tiles.GetLength(1)) break;
+
                         Tile nextTile = grid.tiles[newX, newY];
-                        if (nextTile.isOccupied && nextTile.children[0].GetComponent<TeamInfo>().teamID == teamId) count++;
-                        else break;
+                        if (nextTile != null && nextTile.isOccupied && nextTile.children[0].GetComponent<TeamInfo>().teamID == teamId)
+                            count++;
+                        else
+                            break;
+
                         if (count == win)
                         {
                             return true;
@@ -86,5 +117,6 @@ public class RowCheck : MonoBehaviour
         }
         return false;
     }
+
 
 }

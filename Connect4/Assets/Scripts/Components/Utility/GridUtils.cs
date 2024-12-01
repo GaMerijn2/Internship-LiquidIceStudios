@@ -14,4 +14,6 @@ public class GridUtils
         Debug.Log("Object was snapped to tile center");
         targetGameObject.transform.position = tileCenter;
     }
+    
+    
 }
