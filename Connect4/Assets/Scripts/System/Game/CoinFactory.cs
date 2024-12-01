@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using DG.Tweening;
+using Effects;
 using UnityEngine;
 
 public class CoinFactory
@@ -34,13 +36,16 @@ public class CoinFactory
         
     }
 
-    public void DeleteAllCoins()
+    public void DeleteAllCoins(TweenObject _tweenObject)
     {
         foreach (var coin in _coins)
         {
-            GameObject.Destroy(coin);
+            var duration = Random.Range(0.5f, 1);
+            Tween coinTween = _tweenObject.CoinMoveTween(coin, coin.transform.position, new Vector3(coin.transform.position.x, -4.5f, coin.transform.position.z), duration, Ease.OutBounce);
+            coinTween.OnKill(() => GameObject.Destroy(coin));
         }
         _coins.Clear();
     }
+
 
 }

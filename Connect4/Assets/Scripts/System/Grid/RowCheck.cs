@@ -21,10 +21,9 @@ public class RowCheck : MonoBehaviour
     }
     private void Update()
     {
-        Win();
+        CheckWin();
     }
     
-    // Update the grid reference
     public void SetGridReference(Grid newGrid)
     {
         grid = newGrid;
@@ -43,8 +42,13 @@ public class RowCheck : MonoBehaviour
         }
     }
 
+    public void SetAmountForWin(int newAmountForWin)
+    {
+        amountForWin = newAmountForWin;
+        Debug.Log($"Amount for Win is set to: {amountForWin}");
+    }
 
-    private void Win()
+    private void CheckWin()
     {
         if (_hasWon) return;
         bool winCheck = CheckForWin(amountForWin);
@@ -60,15 +64,15 @@ public class RowCheck : MonoBehaviour
 
     public void InitializeGrid()
     {
-        if (improvedGrid == null)
+        if (!improvedGrid)
             improvedGrid = FindAnyObjectByType<ImprovedGrid>();
-        if (improvedGrid != null && grid == null)
+        if (improvedGrid && grid == null)
             grid = improvedGrid.grid;
     }
     private bool CheckForWin(int win)
     {
         InitializeGrid();
-        if (grid == null || grid.tiles == null)
+        if (grid?.tiles == null)
         {
             Debug.LogError("Grid or Grid.tiles is null. Cannot check for win.");
             return false;

@@ -9,21 +9,6 @@ public class ImprovedGrid : MonoBehaviour
     [SerializeField] private string targetTag = "Coin";
     public GameObject canvas;
 
-    
-    [Header("Grid Settings")]
-    public Dictionary<GameObject, Tile> childToTileMap;
-    public Tile[,] tiles;
-    private int width;
-    private int height;
-    private bool tileIsOccupied;
-    public List<GameObject> _allChildren;
-    private GameObject GameWidthObject;
-    GameObject TileTextParent;
-    private bool debugging = false;
-    public string gridName;
-    private List<Tile> occupiedTiles;
-
-
     private void Awake()
     {
         CreateGrid("First Grid Awake");
@@ -55,10 +40,10 @@ public class ImprovedGrid : MonoBehaviour
         if (grid == null) CreateGrid("First Grid with Checkgrid");
     }
 
-    public void CreateGrid( string gridName, int extrawidth = 0, int extraheight = 0)
+    public void CreateGrid(string gridName)
     {
         var (width, height, startX, startY, canvas) = CheckGridSize();
-        grid = new Grid(width+ extrawidth, height +extraheight, startX, startY, canvas, gridName);
+        grid = new Grid(width, height, startX, startY, canvas, gridName);
     }
 
     private void AddChildrenToList()

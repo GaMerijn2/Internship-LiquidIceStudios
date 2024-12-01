@@ -1,4 +1,5 @@
-﻿using Effects;
+﻿using DG.Tweening;
+using Effects;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -69,7 +70,7 @@ public class GameController : MonoBehaviour
         if (lowestTile != null)
         {
             GameObject coin = _coinFactory.CreateCoinAtTile(lowestTile, column);
-            _tweenObject.CoinMoveTween(coin, new Vector3(coin.transform.position.x, 5, coin.transform.position.z),lowestTile.Position + new Vector2(Tile.height / 2f, Tile.width / 2f), 1f);
+            _tweenObject.CoinMoveTween(coin, new Vector3(coin.transform.position.x, 5, coin.transform.position.z),lowestTile.Position + new Vector2(Tile.height / 2f, Tile.width / 2f), 1f, Ease.OutBounce);
             _soundPlayer.PlayPlacementSound();
             _teamCoordinator.SwitchTeam();
         }
@@ -82,7 +83,7 @@ public class GameController : MonoBehaviour
 
     public void ResetGame()
     {
-        _coinFactory.DeleteAllCoins();
+        _coinFactory.DeleteAllCoins(_tweenObject);
         _improvedGrid.DeleteGrid();
     
         int newGridAmount = gridAmount + 1;
@@ -90,15 +91,12 @@ public class GameController : MonoBehaviour
         gridName = $"New Reset Grid {newGridAmount}";
     
         RowCheck rowCheck = FindObjectOfType<RowCheck>();
-        if (rowCheck != null) rowCheck.SetGridReference(_improvedGrid.grid);
-        
-        if (_gridExtensions != null) _gridExtensions.SetGridReference(_improvedGrid.grid);
-        if (_coinFactory != null) _coinFactory.SetGridReference(_improvedGrid.grid);
+        if (rowCheck) rowCheck.SetGridReference(_improvedGrid.grid);
+
+        _gridExtensions?.SetGridReference(_improvedGrid.grid);
+        _coinFactory?.SetGridReference(_improvedGrid.grid);
 
         rowCheck._hasWon = false;
         gridAmount = newGridAmount;
     }
-
-
-
 }
