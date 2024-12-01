@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +15,7 @@ public class RowCheck : MonoBehaviour
     public bool _hasWon;
     [SerializeField] private ParticleSystem[] confetti;
     [SerializeField] private UnityEvent onFourOnARow;
+    [SerializeField] private TextMeshProUGUI winText;
     
     private void Start()
     {
@@ -56,6 +58,7 @@ public class RowCheck : MonoBehaviour
         _hasWon = true;
         onFourOnARow.Invoke();
         Debug.Log($"You win! {_currentTeamObject.GetComponent<TeamInfo>().teamName}");
+        winText.text = $"You win! \n {_currentTeamObject.GetComponent<TeamInfo>().teamName}";
         foreach (var confettiObj in confetti)
         {
             confettiObj.Play();
