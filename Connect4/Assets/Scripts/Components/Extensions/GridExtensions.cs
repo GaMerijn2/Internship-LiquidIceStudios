@@ -12,7 +12,6 @@ public class GridExtensions
     public void SetGridReference(Grid newGrid)
     {
         _grid = newGrid;
-        Debug.Log($"GridExtensions grid updated to: {_grid.gridName}");
     }
 
     public Tile GetLowestEmptyTile(int column)

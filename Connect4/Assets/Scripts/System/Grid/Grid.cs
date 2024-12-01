@@ -20,7 +20,7 @@ public class Grid
     
     private bool debugging = false;
     
-    public string gridName;  // Add a unique name for each grid instance.
+    public string gridName;
     
     private List<Tile> occupiedTiles = new List<Tile>();
 
@@ -31,7 +31,7 @@ public class Grid
         this.height = height;
         Position = new Vector2(startX, startY);
         _allChildren = new List<GameObject>();
-        gridName = name;  // Assign the provided name.
+        gridName = name;
 
         CreateTiles(width, height, startX, startY, canvas);
     }
@@ -110,7 +110,6 @@ public class Grid
                 if (currentChildTile == correctTile)
                 {
                     occupiedTiles.Add(correctTile);
-                    //GridUtils.SnapToTileCenter(currentChild, correctTile);
                     continue;
                 }
                 
@@ -157,7 +156,6 @@ public class Grid
         childToTileMap[child] = currentTile;
         var currentGridInfo = child.GetOrAddComponent<GridInfo>();
         currentGridInfo.currentTile = currentTile;
-        //GridUtils.SnapToTileCenter(child, currentTile);
         currentTile.isOccupied = true;
     }
 

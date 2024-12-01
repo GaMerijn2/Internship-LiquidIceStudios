@@ -55,7 +55,6 @@ public class ThemeChanger : MonoBehaviour
     {
         if (_currentTheme == "blue")
         {
-            Debug.Log("blue");
             Background.GetComponent<SpriteRenderer>().sprite = _blueBackground;
             foreach (var bg in backgroundObjects)
             {
@@ -65,7 +64,6 @@ public class ThemeChanger : MonoBehaviour
         }
         else if (_currentTheme == "pastel")
         {
-            Debug.Log("pastel");
             Background.GetComponent<SpriteRenderer>().sprite = _pastelBackground;
             foreach (var bg in backgroundObjects)
             {

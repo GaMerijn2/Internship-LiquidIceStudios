@@ -13,7 +13,6 @@ public class CoinFactory
     public void SetGridReference(Grid newGrid)
     {
         _grid = newGrid;
-        Debug.Log($"CoinFactory grid updated to: {_grid.gridName}");
     }
     public CoinFactory(Grid grid, TeamCoordinator teamCoordinator)
     {

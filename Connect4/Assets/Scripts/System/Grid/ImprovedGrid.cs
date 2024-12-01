@@ -68,10 +68,6 @@ public class ImprovedGrid : MonoBehaviour
             }
             grid.AddGameObject(gameObject);
         } 
-        //Debug.Log($"Added {gameObjectsWithTag.Count} GameObjects with tag '{targetTag}' to the grid.");
-        
-        //add so the grid doesn't continuously add every child to the grid again, make it check if its already in the grid, and then dont add it
-        
     }
 
     private (int width, int height, float startX, float startY, GameObject canvas) CheckGridSize()
@@ -83,10 +79,8 @@ public class ImprovedGrid : MonoBehaviour
         int gridWidth = Mathf.FloorToInt(gamewidth / Tile.width);
         int gridHeight = Mathf.FloorToInt(gameheight / Tile.height);
 
-        float startX = renderer.bounds.min.x /*+ Tile.width / 2f*/;
-        float startY = renderer.bounds.min.y /*- Tile.height / 2f*/;
-        Debug.Log($"StartX: {startX}");
-        Debug.Log($"StartY: {startY}");
+        float startX = renderer.bounds.min.x;
+        float startY = renderer.bounds.min.y;
 
         return (gridWidth, gridHeight, startX, startY, canvas);
     }

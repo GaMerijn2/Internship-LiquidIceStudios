@@ -29,7 +29,6 @@ public class RowCheck : MonoBehaviour
     public void SetGridReference(Grid newGrid)
     {
         grid = newGrid;
-        Debug.Log($"RowCheck grid updated to: {grid.gridName}");
     }
 
     public void ResetGridReference()
@@ -47,7 +46,6 @@ public class RowCheck : MonoBehaviour
     public void SetAmountForWin(int newAmountForWin)
     {
         amountForWin = newAmountForWin;
-        Debug.Log($"Amount for Win is set to: {amountForWin}");
     }
 
     private void CheckWin()
@@ -57,7 +55,6 @@ public class RowCheck : MonoBehaviour
         if (!winCheck) return;
         _hasWon = true;
         onFourOnARow.Invoke();
-        Debug.Log($"You win! {_currentTeamObject.GetComponent<TeamInfo>().teamName}");
         winText.text = $"You win! \n {_currentTeamObject.GetComponent<TeamInfo>().teamName}";
         foreach (var confettiObj in confetti)
         {
