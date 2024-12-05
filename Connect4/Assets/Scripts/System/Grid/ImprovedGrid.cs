@@ -16,10 +16,6 @@ public class ImprovedGrid : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UpdateGrid();
-        }
         CheckGrid();
         AddChildrenToList();
 
@@ -72,17 +68,17 @@ public class ImprovedGrid : MonoBehaviour
 
     private (int width, int height, float startX, float startY, GameObject canvas) CheckGridSize()
     {
-        Renderer renderer = GameWidthObj.GetComponent<Renderer>();
-        float gamewidth = renderer.bounds.size.x;
-        float gameheight = renderer.bounds.size.y;
+        Renderer renderer = GameWidthObj.GetComponent<Renderer>(); // gets te bounds of the game width object
+        float gamewidth = renderer.bounds.size.x; // sets the widthof the game
+        float gameheight = renderer.bounds.size.y; // sets the height of the game
 
-        int gridWidth = Mathf.FloorToInt(gamewidth / Tile.width);
-        int gridHeight = Mathf.FloorToInt(gameheight / Tile.height);
+        int gridWidth = Mathf.FloorToInt(gamewidth / Tile.width); // calculates the grid width using the gamewidth and Tile.width
+        int gridHeight = Mathf.FloorToInt(gameheight / Tile.height); // does the same thing for the height
 
-        float startX = renderer.bounds.min.x;
-        float startY = renderer.bounds.min.y;
+        float startX = renderer.bounds.min.x; // sets the starting position of the grid on the X
+        float startY = renderer.bounds.min.y; // same thing here but for the Y
 
-        return (gridWidth, gridHeight, startX, startY, canvas);
+        return (gridWidth, gridHeight, startX, startY, canvas); // returns the grid references and calculated values
     }
 
     public void LogAllChildren()
