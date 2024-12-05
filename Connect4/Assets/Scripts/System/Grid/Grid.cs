@@ -73,7 +73,7 @@ public class Grid
 
     public IEnumerator PerformFrameDelay(int frameInterval)
     {
-        var waitTime = 1 / 60 * frameInterval;
+        var waitTime = 1 / 60 * frameInterval; // the grid updates 1 frame in a 60 frame update rate
         int currentGridX = 0;
         int currentGridY = 0;
         
@@ -182,17 +182,17 @@ public class Grid
     
     public (int gridPosX, int gridPosY) ConvertWorldToGridPos(float worldPosX, float worldPosY)
     {
-        var gameObjectWidth = GameObject.FindGameObjectWithTag("GameWidthObject");
+        var gameObjectWidth = GameObject.FindGameObjectWithTag("GameWidthObject"); 
         var renderer = gameObjectWidth.GetComponent<Renderer>();
 
-        float startX = renderer.bounds.min.x;
-        float startY = renderer.bounds.min.y;
+        float startX = renderer.bounds.min.x; // finds the start pos X of the grid, so it always starts at [posx = 0,posy = 0] so it does not go in the negative numbers
+        float startY = renderer.bounds.min.y; // same thing with the Y pos
         
-        float adjustedWorldPosX = worldPosX - startX;
+        float adjustedWorldPosX = worldPosX - startX; // applies startX to the grid position to finally make it 0,0
         float adjustedWorldPosY = worldPosY - startY;
         
-        int gridPosX = Mathf.FloorToInt(adjustedWorldPosX / Tile.width);
-        int gridPosY = Mathf.FloorToInt(adjustedWorldPosY / Tile.height);
+        int gridPosX = Mathf.FloorToInt(adjustedWorldPosX / Tile.width); // calculates the world pos that we got above to the grid position by using the Mathf.FloorToInt to make it a int, and then getting it within the tile width
+        int gridPosY = Mathf.FloorToInt(adjustedWorldPosY / Tile.height); // same above with the Y
         
         return (gridPosX, gridPosY);
     } 
